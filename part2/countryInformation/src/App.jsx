@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import './index.css'
 import Search from './components/Search';
-import axios from 'axios';
 import FindCountries from './components/FindCountries';
 import countryService from './services/country.js';
 
