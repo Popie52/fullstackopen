@@ -1,5 +1,6 @@
 import express from 'express';
 import 'dotenv/config';
+import morgan from 'morgan';
 
 const app = express();
 const PORT = process.env.PORT
@@ -31,7 +32,14 @@ const generateId = () => {
     return Math.floor(Math.random() * 1000000).toString();
 }
 
+
 app.use(express.json())
+
+morgan.token('post-data', (req) => {
+    return req.method === 'POST' ? JSON.stringify(req.body) : '';
+});
+app.use(morgan(':method :url :status :res[content-length] - :response-time ms :post-data'));
+
 
 
 app.get('/info', (req, res) => {
@@ -57,7 +65,7 @@ app.get('/api/persons/:id', (req, res) => {
 app.post('/api/persons', (req, res) => {
     const { name, number } = req.body;
     if(!name || !number) {
-        res.status(400).json({error: "name or number missing"})
+        return res.status(400).json({error: "name or number missing"})
     }
     const checkName = persons.find(e => e.name.toLowerCase().trim() === name.trim().toLowerCase())
     if(!checkName) {
