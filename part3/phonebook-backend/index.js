@@ -3,7 +3,7 @@ import 'dotenv/config';
 import morgan from 'morgan';
 
 const app = express();
-const PORT = process.env.PORT
+const PORT = process.env.PORT || 3001
 
 let persons = [
     {
@@ -89,7 +89,7 @@ app.delete("/api/persons/:id", (req, res) => {
     const person = persons.find(e => e.id === id);
     if(person) {
         persons = persons.filter(e => e.id !== id);
-        res.status(204).end();
+        res.status(200).json(person);
     } else {
         res.status(404).end();
     }
