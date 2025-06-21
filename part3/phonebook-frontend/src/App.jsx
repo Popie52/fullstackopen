@@ -61,7 +61,7 @@ function App() {
             })
             .catch((err) => {
               setNotiType("error");
-              setNotification(err.message);
+              setNotification(err.response.data.error);
               setTimeout(() => setNotification(null), 4000);
             });
           console.log(`successfully update(put) request`);
@@ -74,7 +74,8 @@ function App() {
       const newObject = { name: newName, number: newNumber };
 
       console.log(`post request started`);
-      phonebookService.create(newObject).then((res) => {
+      phonebookService
+      .create(newObject).then((res) => {
         console.log(`successfull post request`);
         setPerson(person.concat(res));
         setNotiType("success");
@@ -82,10 +83,14 @@ function App() {
         setTimeout(() => setNotification(null), 4000);
         setNewName("");
         setNewNumber("");
-      });
+      }).catch((error) => {
+        console.log(error);
+        setNotiType('error')
+        setNotification(error.response.data.error);
+        setTimeout(() => setNotification(null), 4000);
+      })
     } catch (error) {
-      console.log(`failed to create new object`);
-      console.log(error.message);
+      console.log(error);
       setNotiType("error");
       setNotification(error.message);
       setTimeout(() => setNotification(null), 4000);
@@ -133,7 +138,7 @@ function App() {
     } catch (err) {
       console.log(err.message);
       setNotiType("error");
-      setNotification(err.message);
+      setNotification(err);
       setTimeout(() => setNotification(null), 4000);
     }
   };
