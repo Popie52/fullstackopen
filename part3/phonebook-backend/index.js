@@ -34,7 +34,7 @@ const generateId = () => {
 
 
 app.use(express.json())
-
+app.use(express.static('dist'))
 morgan.token('post-data', (req) => {
     return req.method === 'POST' ? JSON.stringify(req.body) : '';
 });
