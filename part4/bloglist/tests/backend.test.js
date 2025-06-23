@@ -99,6 +99,35 @@ describe('test for missing author or title', () => {
     })
 })
 
+test('delete blog', async() => {
+    const blogsAtStart = await helper.blogsInDb();
+
+
+    await api.delete(`${baseUrl}/${blogsAtStart[0].id}`).expect(204);
+    const blogsAtEnd = await helper.blogsInDb();
+
+    assert.strictEqual(blogsAtStart.length-1, blogsAtEnd.length);
+
+})
+
+
+test('update a blog', async() => {
+    const blogsAtStart = await helper.blogsInDb();
+    const blogToUpdate = blogsAtStart[0];
+    const updatedBlog = {...blogToUpdate, likes: 5};
+    
+    const response = await api.put(`${baseUrl}/${blogToUpdate.id}`)
+    .send(updatedBlog).expect(200)
+    const blogsAtEnd = await helper.blogsInDb();
+
+    const updatedBlogInDb = blogsAtEnd.find(e => e.id === blogToUpdate.id);
+    assert.strictEqual(updatedBlogInDb.likes, 5);
+
+    assert.strictEqual(blogsAtStart.length, blogsAtEnd.length);
+    assert.strictEqual(response.body.likes, 5);
+
+})
+
 after(async () => {
     await mongoose.connection.close();
 })

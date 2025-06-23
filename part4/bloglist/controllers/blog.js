@@ -1,3 +1,4 @@
+import { Query } from 'mongoose';
 import Blog from '../models/Blog.js';
 import express from 'express';
 
@@ -15,7 +16,7 @@ blogRouter.get('/', async (req, res, next) => {
 
 blogRouter.post('/', async(req, res, next) => {
     if(!req.body.title || !req.body.author) {
-        return res.status(400).end();
+        return res.status(400).json({error: "Missing titleor author"});
     }
 
     try {
@@ -27,6 +28,44 @@ blogRouter.post('/', async(req, res, next) => {
     }
     
 })
+
+blogRouter.put("/:id", async(req, res, next) => {
+    const id = req.params.id;
+    if(!id) {
+        return res.status(400).json({error: "Missing id"});
+    }
+    const details = req.body;
+
+    try {
+        const blog = await Blog.findByIdAndUpdate(id, details, { new: true, runValidators: true, context: 'query' });
+        if(blog) {
+            res.status(200).json(blog);
+        } else {
+            res.status(404).json({error: "blog not found"})
+        }
+    } catch (error) {
+        next(error);
+    }
+})
+
+
+blogRouter.delete('/:id', async(req, res, next) => {
+    const id = req.params.id;
+    if(!id) {
+        return res.status(400).json({error: "Missing id"});
+    }
+    try {
+        const blogs = await Blog.findByIdAndDelete(id);
+        if(blogs) {
+            res.status(204).end();
+        } else {
+            res.status(404).json({error: "blog not found"})
+        }
+    } catch (error) {
+        next(error);
+    }
+})
+
 
 
 export default blogRouter
