@@ -3,6 +3,7 @@ import blogRouter from "./controllers/blog.js";
 import config from "./utils/config.js";
 import middleware from "./utils/middleware.js";
 import mongoose from "mongoose";
+import cors from 'cors';
 
 const app = express();
 
@@ -16,6 +17,7 @@ const app = express();
     }
 })();
 
+app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger);
 

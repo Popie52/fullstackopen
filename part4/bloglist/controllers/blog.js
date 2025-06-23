@@ -14,6 +14,10 @@ blogRouter.get('/', async (req, res, next) => {
 })
 
 blogRouter.post('/', async(req, res, next) => {
+    if(!req.body.title || !req.body.author) {
+        return res.status(400).end();
+    }
+
     try {
         const blog = new Blog({...req.body, likes: req.body.likes || 0});
         const result = await blog.save();

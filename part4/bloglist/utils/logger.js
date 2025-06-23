@@ -1,9 +1,9 @@
 const info = (...msg) => {
-    console.log(...msg);
-}
+  if (process.env.NODE_ENV !== "test") console.log(...msg);
+};
 
 const error = (...msg) => {
-    console.log(...msg);
-}
+  if (process.env.NODE_ENV !== "test") console.log(...msg);
+};
 
-export default { info, error }
+export default { info, error };
