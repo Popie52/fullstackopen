@@ -4,6 +4,8 @@ import config from "./utils/config.js";
 import middleware from "./utils/middleware.js";
 import mongoose from "mongoose";
 import cors from 'cors';
+import userRouter from "./controllers/user.js";
+import loginRouter from "./controllers/login.js";
 
 const app = express();
 
@@ -20,8 +22,11 @@ const app = express();
 app.use(cors())
 app.use(express.json())
 app.use(middleware.requestLogger);
+app.use(middleware.tokenExtracter);
 
 app.use('/api/blogs', blogRouter);
+app.use('/api/users', userRouter);
+app.use('/api/login', loginRouter);
 
 
 app.use(middleware.unknownEndpoint);
