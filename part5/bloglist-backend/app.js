@@ -6,6 +6,8 @@ import mongoose from "mongoose";
 import cors from 'cors';
 import userRouter from "./controllers/user.js";
 import loginRouter from "./controllers/login.js";
+import testRouter from "./controllers/testing.js";
+import 'dotenv/config.js';
 
 const app = express();
 
@@ -27,6 +29,9 @@ app.use(middleware.tokenExtracter);
 app.use('/api/blogs', blogRouter);
 app.use('/api/users', userRouter);
 app.use('/api/login', loginRouter);
+if(process.env.NODE_ENV === 'test') {
+    app.use('/api/testing', testRouter);
+}
 
 
 app.use(middleware.unknownEndpoint);

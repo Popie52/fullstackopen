@@ -25,13 +25,13 @@ const Blog = ({ blog, updateBlog, loggedUser, handleBlogDelete }) => {
   };
 
   return (
-    <div style={blogStyle}>
+    <div style={blogStyle} className="blog">
       {blog.title} {blog.author}{" "}
       <button onClick={handleBlogView}>{label}</button>
       <div style={showVisible} className="showContent" >
         <p>{blog.url}</p>
         <p>
-          likes {blog.likes} <button onClick={handleLikes}>like</button>{" "}
+          likes <span className="likes">{blog.likes}</span> <button onClick={handleLikes}>like</button>{" "}
         </p>
         <p>{blog.user.username}</p>
         {isOwner && (
