@@ -28,7 +28,7 @@ const Blog = ({ blog, updateBlog, loggedUser, handleBlogDelete }) => {
     <div style={blogStyle}>
       {blog.title} {blog.author}{" "}
       <button onClick={handleBlogView}>{label}</button>
-      <div style={showVisible}>
+      <div style={showVisible} className="showContent" >
         <p>{blog.url}</p>
         <p>
           likes {blog.likes} <button onClick={handleLikes}>like</button>{" "}
