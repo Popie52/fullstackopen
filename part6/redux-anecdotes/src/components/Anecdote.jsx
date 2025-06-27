@@ -1,11 +1,13 @@
 import { useDispatch } from "react-redux"
-import { upVoteAnecdote } from "../reducers/anecdoteReducer";
+import { upVoteAnecdote } from "../reducers/anecdoteReducer.js";
+import { notificationHandler } from "../reducers/notificationReducer.js";
 
 const Anecdote = ({anecdote}) => {
     const dispatch = useDispatch();
 
-    const vote = (id) => {
-        dispatch(upVoteAnecdote(id));
+    const vote = (anecdote) => {
+        dispatch(upVoteAnecdote(anecdote.id));
+        dispatch(notificationHandler(`you voted ${anecdote.content}`, 5))
     }
 
     return (
@@ -15,7 +17,7 @@ const Anecdote = ({anecdote}) => {
           </div>
           <div>
             has {anecdote.votes}
-            <button onClick={() => vote(anecdote.id)}>vote</button>
+            <button onClick={() => vote(anecdote)}>vote</button>
           </div>
         </div>
     )
