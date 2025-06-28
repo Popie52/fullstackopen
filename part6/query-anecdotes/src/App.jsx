@@ -2,16 +2,20 @@ import AnecdoteForm from "./components/AnecdoteForm";
 import Notification from "./components/Notification";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { getAll, update } from "./services/request.js";
+import { setNotificaiton } from "./reducers/notificationHelper.js";
+import { useNotificationDispatch } from "./reducers/notificationReducer.jsx";
 
 const App = () => {
 
   const queryClient = useQueryClient();
+  const dispatch = useNotificationDispatch()
 
   const updateMutation = useMutation({
     mutationFn: update,
     onSuccess: (anecdote) => {
       const data = queryClient.getQueryData(['anecdotes']);
       queryClient.setQueryData(['anecdotes'], data.map(e => e.id === anecdote.id ? anecdote: e));
+      setNotificaiton(dispatch, `upvote ${anecdote.content}`, 5)
     }
   })
 
