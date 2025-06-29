@@ -1,0 +1,64 @@
+{
+  "notes": [
+    {
+      "id": 1,
+      "content": "custom-hooks are awesome!"
+    },
+    {
+      "id": 2,
+      "content": "best feature ever <3"
+    },
+    {
+      "content": "creating beautiful hooks",
+      "id": 3
+    },
+    {
+      "content": "Hello",
+      "id": 4
+    },
+    {
+      "content": "creating with custom hooks feels awesome",
+      "id": 5
+    },
+    {
+      "content": "awesome",
+      "id": 6
+    },
+    {
+      "content": "Namo Nama",
+      "id": 7
+    }
+  ],
+  "persons": [
+    {
+      "id": 1,
+      "name": "mluukkai",
+      "number": "040-5483923"
+    },
+    {
+      "id": 2,
+      "name": "hellas",
+      "number": "012-123123"
+    },
+    {
+      "name": "Kim",
+      "number": "0123-4567899",
+      "id": 3
+    },
+    {
+      "name": "Hello",
+      "number": "123-789456123",
+      "id": 4
+    },
+    {
+      "name": "Hello",
+      "number": "123-8745642",
+      "id": 6
+    },
+    {
+      "name": "lakim",
+      "number": "7563-458912312",
+      "id": 7
+    }
+  ]
+}
