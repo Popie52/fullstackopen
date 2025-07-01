@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm.jsx";
@@ -8,13 +8,24 @@ import Notification from "./components/Notification.jsx";
 import Togglable from "./components/Togglable.jsx";
 import { notificationHandler } from "./reducers/notificaitonReducer.js";
 import { useDispatch, useSelector } from "react-redux";
-import { createBlogsR, deleteBlogR, initializeBlogsR, updateBlogR } from "./reducers/blogReducer.js";
+import {
+  createBlogsR,
+  deleteBlogR,
+  initializeBlogsR,
+  updateBlogR,
+} from "./reducers/blogReducer.js";
 import { loginUser, logoutUser, setUser } from "./reducers/loginReducer.js";
+import { Routes, Route, Link, useNavigate, useMatch } from "react-router-dom";
+import User from "./components/Users.jsx";
+import Layout from "./components/Layout.jsx";
+import SingleUser from "./components/SingleUser.jsx";
+import Singleblogs from "./components/SingleBlogs.jsx";
 
 const App = () => {
   const dispatch = useDispatch();
   const blogs = useSelector((state) => state.blogs);
-  const user = useSelector(state => state.login);
+  const user = useSelector((state) => state.login);
+  const navigate = useNavigate();
 
   const blogRef = useRef();
 
@@ -33,7 +44,7 @@ const App = () => {
 
   const handleLogin = async (username, password) => {
     try {
-      dispatch(loginUser({username, password}));
+      dispatch(loginUser({ username, password }));
       dispatch(notificationHandler(`success`, `${username} logged in`));
     } catch (error) {
       dispatch(notificationHandler("error", `wrong username or password`));
@@ -55,6 +66,7 @@ const App = () => {
     if (check) {
       dispatch(logoutUser());
       dispatch(notificationHandler("success", `${user.username} logged out`));
+      navigate("/");
     }
   };
 
@@ -106,6 +118,7 @@ const App = () => {
             `deleted blog ${blog.title} by ${blog.author}`
           )
         );
+        navigate('/')
       }
     } catch (error) {
       console.log(error);
@@ -113,15 +126,9 @@ const App = () => {
     }
   };
 
-  const loggedUser = () => {
+  const info = () => {
     return (
       <div>
-        <h2>blogs</h2>
-        <h4>
-          {user.username} has logged in.{" "}
-          <button onClick={handleLogout}>logout</button>
-        </h4>
-
         <Togglable label="new blog" ref={blogRef}>
           <h2>create new</h2>
           <BlogForm handleBlog={handleBlog} />
@@ -129,17 +136,18 @@ const App = () => {
             cancel
           </button>
         </Togglable>
-
         {[...blogs]
           .sort((a, b) => b.likes - a.likes)
           .map((blog) => (
-            <Blog
-              key={blog.id}
-              blog={blog}
-              updateBlog={handleUpdateBlog}
-              loggedUser={user}
-              handleBlogDelete={handleDelete}
-            />
+            <Link key={blog.id} to={`/blogs/${blog.id}`} >
+              <Blog
+                // key={blog.id}
+                blog={blog}
+                updateBlog={handleUpdateBlog}
+                loggedUser={user}
+                handleBlogDelete={handleDelete}
+              />
+            </Link>
           ))}
       </div>
     );
@@ -148,8 +156,21 @@ const App = () => {
   return (
     <div>
       <Notification />
-      {!user && loginForm()}
-      {user && loggedUser()}
+      <Routes>
+        {!user ? (
+          <Route path="*" element={loginForm()} />
+        ) : (
+          <Route element={<Layout user={user} handleLogout={handleLogout} />}>
+            <Route path="/" element={info()} />
+            <Route path="/users" element={<User />} />
+            <Route path="/users/:id" element={<SingleUser />} />
+            <Route
+              path="/blogs/:id"
+              element={<Singleblogs update={handleUpdateBlog} loggedUser={user} handleBlogDelete={handleDelete} />}
+            />
+          </Route>
+        )}
+      </Routes>
     </div>
   );
 };

@@ -1,15 +1,15 @@
-import { useState } from "react";
-import PropTypes from "prop-types";
+// import { useState } from "react";
+// import PropTypes from "prop-types";
 
-const Blog = ({ blog, updateBlog, loggedUser, handleBlogDelete }) => {
-  const [visible, setVisible] = useState(false);
+const Blog = ({ blog}) => {
+  // const [visible, setVisible] = useState(false);
 
-  const showVisible = { display: visible ? "" : "none" };
-  const label = visible ? "hide" : "view";
+  // const showVisible = { display: visible ? "" : "none" };
+  // const label = visible ? "hide" : "view";
 
-  const handleBlogView = () => setVisible(!visible);
+  // const handleBlogView = () => setVisible(!visible);
 
-  const isOwner = blog.user.username === loggedUser.username;
+  // const isOwner = blog.user.username === loggedUser.username;
 
   const blogStyle = {
     padding: 10,
@@ -20,49 +20,46 @@ const Blog = ({ blog, updateBlog, loggedUser, handleBlogDelete }) => {
     marginTop: 5,
   };
 
-  const handleLikes = async () => {
-    await updateBlog(blog);
-  };
+  // const handleLikes = async () => {
+  //   await updateBlog(blog);
+  // };
 
   return (
     <div style={blogStyle} className="blog">
       {blog.title} {blog.author}{" "}
-      <button onClick={handleBlogView}>{label}</button>
-      <div style={showVisible} className="showContent">
-        <p>{blog.url}</p>
-        <p>
-          likes <span className="likes">{blog.likes}</span>{" "}
-          <button onClick={handleLikes}>like</button>{" "}
-        </p>
-        <p>{blog.user.username}</p>
-        {isOwner && (
-          <button onClick={() => handleBlogDelete(blog)}>delete</button>
-        )}
-      </div>
+      {/* <button onClick={handleBlogView}>{label}</button> */}
+      {/* <div style={showVisible} className="showContent"> */}
+        {/* <p>{blog.url}</p> */}
+        {/* <p> */}
+          {/* likes <span className="likes">{blog.likes}</span>{" "} */}
+          {/* <button onClick={handleLikes}>like</button>{" "} */}
+        {/* </p> */}
+        
+      {/* </div> */}
     </div>
   );
 };
 
-Blog.propTypes = {
-  blog: PropTypes.shape({
-    id: PropTypes.string.isRequired,
-    title: PropTypes.string.isRequired,
-    author: PropTypes.string.isRequired,
-    url: PropTypes.string.isRequired,
-    likes: PropTypes.number.isRequired,
-    user: PropTypes.oneOfType([
-      PropTypes.string,
-      PropTypes.shape({
-        username: PropTypes.string.isRequired,
-        id: PropTypes.string.isRequired,
-      }),
-    ]).isRequired,
-  }).isRequired,
-  updateBlog: PropTypes.func.isRequired,
-  loggedUser: PropTypes.shape({
-    username: PropTypes.string.isRequired,
-  }).isRequired,
-  handleBlogDelete: PropTypes.func.isRequired,
-};
+// Blog.propTypes = {
+//   blog: PropTypes.shape({
+//     id: PropTypes.string.isRequired,
+//     title: PropTypes.string.isRequired,
+//     author: PropTypes.string.isRequired,
+//     url: PropTypes.string.isRequired,
+//     likes: PropTypes.number.isRequired,
+//     user: PropTypes.oneOfType([
+//       PropTypes.string,
+//       PropTypes.shape({
+//         username: PropTypes.string.isRequired,
+//         id: PropTypes.string.isRequired,
+//       }),
+//     ]).isRequired,
+//   }).isRequired,
+//   updateBlog: PropTypes.func.isRequired,
+//   loggedUser: PropTypes.shape({
+//     username: PropTypes.string.isRequired,
+//   }).isRequired,
+//   handleBlogDelete: PropTypes.func.isRequired,
+// };
 
 export default Blog;
