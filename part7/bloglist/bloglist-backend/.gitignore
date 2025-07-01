@@ -1,0 +1,3 @@
+node_modules/
+%APPDATA%npm-cache
+.env
