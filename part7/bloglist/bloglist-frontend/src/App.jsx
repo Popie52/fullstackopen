@@ -2,7 +2,7 @@ import { useEffect, useRef } from "react";
 import Blog from "./components/Blog";
 import blogService from "./services/blogs";
 import LoginForm from "./components/LoginForm.jsx";
-import "./index.css";
+import GlobalStyle from "./GlobalStyle.js";
 import BlogForm from "./components/BlogForm.jsx";
 import Notification from "./components/Notification.jsx";
 import Togglable from "./components/Togglable.jsx";
@@ -20,6 +20,7 @@ import User from "./components/Users.jsx";
 import Layout from "./components/Layout.jsx";
 import SingleUser from "./components/SingleUser.jsx";
 import Singleblogs from "./components/SingleBlogs.jsx";
+import { Button } from "./components/BlogForm.js";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -132,9 +133,9 @@ const App = () => {
         <Togglable label="new blog" ref={blogRef}>
           <h2>create new</h2>
           <BlogForm handleBlog={handleBlog} />
-          <button onClick={() => blogRef.current.toggleVisibility()}>
+          <Button onClick={() => blogRef.current.toggleVisibility()}>
             cancel
-          </button>
+          </Button>
         </Togglable>
         {[...blogs]
           .sort((a, b) => b.likes - a.likes)
@@ -155,7 +156,9 @@ const App = () => {
 
   return (
     <div>
+      <GlobalStyle />
       <Notification />
+      
       <Routes>
         {!user ? (
           <Route path="*" element={loginForm()} />
@@ -167,7 +170,7 @@ const App = () => {
             <Route
               path="/blogs/:id"
               element={<Singleblogs update={handleUpdateBlog} loggedUser={user} handleBlogDelete={handleDelete} />}
-            />
+              />
           </Route>
         )}
       </Routes>

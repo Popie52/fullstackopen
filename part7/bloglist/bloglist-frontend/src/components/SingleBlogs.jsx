@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { initializeBlogsR } from "../reducers/blogReducer";
+import Comments from "./Comments.jsx";
 
 const Singleblogs = ({ update, loggedUser, handleBlogDelete }) => {
   const dispatch = useDispatch();
@@ -38,6 +39,9 @@ const Singleblogs = ({ update, loggedUser, handleBlogDelete }) => {
       {isOwner && (
         <button onClick={() => handleBlogDelete(blog)}>delete</button>
       )}
+
+      <h2>Comments</h2>
+      <Comments id={blog.id} />
     </div>
   );
 };

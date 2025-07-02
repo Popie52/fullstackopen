@@ -1,9 +1,14 @@
 import { Outlet, Link } from "react-router-dom";
 
+const lemma = {
+    backgroundColor: "lightgrey",
+    padding: 8
+}
+
 const Layout = ({user, handleLogout}) => {
     return (
         <div>
-            <nav>
+            <nav style={lemma}>
                 <Link to='/'>home</Link> | <Link to="/users" >users</Link> {" | "}
                 {user.username} logged in.{" "}
                 <button onClick={handleLogout}>logout</button>
