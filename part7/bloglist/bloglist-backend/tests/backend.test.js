@@ -7,7 +7,6 @@ import app from "../app.js";
 import helper from "./test_helper.js";
 import bcrypt from "bcrypt";
 import User from "../models/User.js";
-// import jwt from "jsonwebtoken";
 
 const api = supertest(app);
 
