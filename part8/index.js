@@ -93,6 +93,7 @@ const typeDefs = `
         name: String!
         bookCount: Int
         born: Int
+        id: String!
     }
     
     type Query {
@@ -124,6 +125,7 @@ const resolvers = {
       return authors.map((author) => ({
         name: author.name,
         born: author.born,
+        id: author.id,
         bookCount: books.filter((b) => b.author === author.name).length,
       }));
     },
