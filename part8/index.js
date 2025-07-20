@@ -1,10 +1,10 @@
 import { ApolloServer } from "@apollo/server";
 import { startStandaloneServer } from "@apollo/server/standalone";
 import jwt from 'jsonwebtoken';
-import Author from "./models/Author";
-import Book from "./models/Book";
+import Author from "./models/Author.js";
+import Book from "./models/Book.js";
 import mongoose from "mongoose";
-import User from "./models/User";
+import User from "./models/User.js";
 import { GraphQLError } from "graphql";
 
 import 'dotenv/config';
