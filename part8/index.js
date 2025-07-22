@@ -125,35 +125,56 @@ const resolvers = {
       return {value: jwt.sign(userForToken, process.env.JWT_SECRET)};
     },
     addBook: async (root, args, context) => {
-      if(!context.currentUser) {
-        throw new GraphQLError('not authenticated', {
-          extensions: {
-            code: "UNAUTHENTICATED"
-          }
-        })
+  if (!context.currentUser) {
+    throw new GraphQLError('not authenticated', {
+      extensions: {
+        code: "UNAUTHENTICATED"
       }
-      const newBook = new Book({
-        ...args, 
-        genres:args.genres || [] 
-      })
-      try {
-        await newBook.save();
-      } catch (error) {
-        throw new GraphQLError('Adding a book failed', {
-          extensions: {
-            code: "BAD_USER_INPUT",
-            invalidArgs: Object.keys(error.errors),
-            error
-          }
-        })
+    });
+  }
+
+  let author = await Author.findOne({ name: args.author });
+  if (!author) {
+    author = new Author({ name: args.author });
+    try {
+      await author.save();
+    } catch (error) {
+      throw new GraphQLError('Creating author failed', {
+        extensions: {
+          code: "BAD_USER_INPUT",
+          invalidArgs: ['author'],
+          error
+        }
+      });
+    }
+  }
+
+  const newBook = new Book({
+    title: args.title,
+    published: args.published,
+    genres: args.genres || [],
+    author: author._id
+  });
+
+  try {
+    await newBook.save();
+  } catch (error) {
+    throw new GraphQLError('Adding a book failed', {
+      extensions: {
+        code: "BAD_USER_INPUT",
+        invalidArgs: Object.keys(error.errors),
+        error
       }
-      return newBook;
+    });
+  }
+
+  return newBook.populate('author');
     },
     editAuthor: async (root, args, context) => {
       if(!context.currentUser) {
         throw new GraphQLError('Not Authenticated', {
           extensions: {
-            code: "UNAUTHENTICATED",
+            code: "UNAUTHORIZED",
           }
         })
       }
@@ -192,7 +213,7 @@ const { url } = await startStandaloneServer(server, {
     const auth = req? req.headers.authorization : null;
     if(auth && auth.startsWith('Bearer ')) {
       const decodedToken = jwt.verify(auth.substring(7), process.env.JWT_SECRET);
-      const currentUser = await User.findById(decodedToken.id).populate('books');
+      const currentUser = await User.findById(decodedToken.id);
       return {
         currentUser
       }

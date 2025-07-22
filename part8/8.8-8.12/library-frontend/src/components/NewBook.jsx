@@ -11,14 +11,33 @@ const NewBook = (props) => {
 
   const [addBook] = useMutation(ADD_BOOK, 
     {
-      refetchQueries: [
-        { query: GET_AUTHORS },
-        { query: GET_BOOKS }
-      ]
-    }
+      // refetchQueries: [
+      //   { query: GET_AUTHORS },
+      //   { query: GET_BOOKS }
+      // ]
+      update: (cache, { data: { addBook }}) => {
+        cache.updateQuery({ query: GET_BOOKS}, (data) => {
+          if(!data) return;
+          return {
+            allBooks: data.allBooks.concat(addBook)
+          }
+        });
+
+        cache.updateQuery({query: GET_AUTHORS}, (data) => {
+          if(!data) return;
+          const authorsExist = data.allAuthors.find(a => a.name === addBook.author.name);
+          if(!authorsExist) {
+            return {
+              allAuthors: data.allAuthors.concat(addBook.author)
+            }
+          } else {
+            return data
+          }
+        })
+
+      }
+    },
   );
-
-
 
   const submit = async (event) => {
     event.preventDefault()
