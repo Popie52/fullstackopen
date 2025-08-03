@@ -1,5 +1,4 @@
 import express from 'express';
-// import { Response } from 'express';
 import diagnosesService from '../services/diagnosesService';
 
 
