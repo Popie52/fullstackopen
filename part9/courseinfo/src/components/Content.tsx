@@ -1,4 +1,5 @@
 import type { CoursePart } from "../App"
+import Part from "./Part"
 
 interface ContentProps {
     parts: CoursePart[]
@@ -7,7 +8,7 @@ interface ContentProps {
 const Content = ({parts}: ContentProps) => {
   return (
     <div>
-        {parts.map(e => <p key={e.name}>{e.name} {e.exerciseCount}</p>)}
+        {parts.map(e => <Part key={e.name} part={e} /> )}
     </div>
   )
 }
