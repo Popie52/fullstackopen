@@ -6,7 +6,6 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import patientService from "../services/patients";
 import EntryDetails from "./EntryDetails";
-// import AddEntryForm from "./AddEntryForm";
 import AddHealthCheckEntryForm from "./AddHealthCheckEntryForm";
 
 type Props = { diagnoses: Diagnosis[] };
@@ -67,28 +66,6 @@ const PatientInfo = ({ diagnoses }: Props) => {
   ))
 }
 
-      {/* <List>
-        {patient.entries.map((entry: Entry) => (
-          <Box key={entry.id} sx={{ mb: 2, border: "1px solid #ccc", borderRadius: 2, p: 2 }}>
-            <Typography variant="subtitle1" fontWeight="bold">
-              {entry.date}
-            </Typography>
-            <Typography variant="body1">{entry.description}</Typography>
-
-            {entry.diagnosisCodes && (
-              <List dense>
-                {entry.diagnosisCodes.map(code => (
-                  <ListItem key={code} sx={{ pl: 2 }}>
-                    <ListItemText
-                      primary={`${code} – ${getDiagnosisName(code)}`}
-                    />
-                  </ListItem>
-                ))}
-              </List>
-            )}
-          </Box>
-        ))}
-      </List> */}
     </Box>
   );
 };
