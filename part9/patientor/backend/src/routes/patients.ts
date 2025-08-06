@@ -16,6 +16,17 @@ router.post("/", middleware.newPatientParser ,async (_req: Request<unknown, unkn
         const addedPatient = patientService.addPatient(_req.body);
         res.json(addedPatient);
 
+});
+
+router.get("/:id", async(_req, res) => {
+    const id = _req.params.id;
+    const ans = patientService.getPatientById(id);
+    if(ans) {
+        res.json(ans);
+    } else {
+        res.status(404).json({error: "Not Found"})
+    } 
+
 })
 
 router.use(middleware.errorMiddleware);
